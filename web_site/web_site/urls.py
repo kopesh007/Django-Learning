@@ -21,3 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("",include("blog.urls")),
 ]
+
+handler404="web_site.views.error_404"

@@ -5,5 +5,10 @@ from django.http import HttpResponse
 def index(request):
     return render(request,"index.html")
 
+def detail(request):
+    return render(request,"detail.html")
+
+def contact(request):
+    return render(request,"contact.html")
 
 # Create your views here.
