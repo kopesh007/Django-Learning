@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import posts
 
 
 
 
 
 def index(request):
+    p=posts.objects.all()
 
-    return render(request,"index.html",{'posts':posts})
+    return render(request,"index.html",{'posts':p})
 
 def detail(request,id):
     post=None
