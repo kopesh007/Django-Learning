@@ -12,10 +12,7 @@ def index(request):
     return render(request,"index.html",{'posts':p})
 
 def detail(request,id):
-    post=None
-    for i in posts:
-        if i["id"]==id:
-            post=i
+    post=posts.objects.get(id=id)
     return render(request,"detail.html",{'post':post})
 
 def contact(request):
