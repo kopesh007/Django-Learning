@@ -11,9 +11,9 @@ def index(request):
 
     return render(request,"index.html",{'posts':p})
 
-def detail(request,id):
+def detail(request,sl):
     try:
-        post=posts.objects.get(pk=id)
+        post=posts.objects.get(slug=sl)
     except Exception :
         post=None
     return render(request,"detail.html",{'post':post})
