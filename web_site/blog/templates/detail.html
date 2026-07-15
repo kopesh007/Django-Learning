@@ -3,13 +3,15 @@
 
 {% block content%}
 
-
+{% if post%}
     <div class="container-fluid ">
        
         <div class="row">
             <div class="col-lg-8">
+              
+
               <h1 class="mb-4">{{post.title}}</h1>
-              <p class="text-muted">Posted on January 1, 2024</p>
+              <p class="text-muted">{{post.data}}</p>
               <img src="{{post.image}}" class="img-fluid mb-4" alt="Blog Image">
               <p>{{post.content}}</p>
             </div>
@@ -27,5 +29,8 @@
             </div>
         </div>
     </div>
+  {% else %}
+  <h1>Post Doesn't Exist</h1>
+  {% endif %}
    
 {% endblock %}

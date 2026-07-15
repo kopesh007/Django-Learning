@@ -12,7 +12,10 @@ def index(request):
     return render(request,"index.html",{'posts':p})
 
 def detail(request,id):
-    post=next((i for i in posts.objects.all() if i.id==id),None)
+    try:
+        post=posts.objects.get(pk=id)
+    except Exception :
+        post=None
     return render(request,"detail.html",{'post':post})
 
 def contact(request):
