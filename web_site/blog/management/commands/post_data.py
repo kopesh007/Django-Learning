@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
-from blog.models import posts
+from blog.models import posts,cat
+import random
 
 
 
@@ -81,8 +82,13 @@ class Command(BaseCommand):
 
     def handle(self,*args,**kwargs):
 
+        catogories= cat.objects.all()
+
         for i,j,k in zip(titles,contents,img_urls):
-            posts.objects.create(title=i,content=j,image=k)
+
+            catogory = random.choice(catogories)
+
+            posts.objects.create(title=i,content=j,image=k,cato=catogory)
         
         self.stdout.write(self.style.SUCCESS("POSTS UPLOADED SUCCESSFULLY !"))
 
