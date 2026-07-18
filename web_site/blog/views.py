@@ -1,15 +1,20 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import posts
+from django.core.paginator import Paginator
 
 
 
 
 
 def index(request):
-    p=posts.objects.all().order_by("-title")
+    all_posts = posts.objects.all().order_by("title")
+    all_pages = Paginator(all_posts,5)
+    pg = request.GET.get('page')
+    pg_posts = all_pages.get_page(pg)
 
-    return render(request,"index.html",{'posts':p})
+
+    return render(request,"index.html",{'posts':pg_posts})
 
 def detail(request,sl):
     try:
