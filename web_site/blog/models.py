@@ -24,6 +24,12 @@ class posts(models.Model):
     def __str__(self):
         return self.title
 
+class about(models.Model):
+    content = models.TextField(max_length=1000)
+
+
+    def __str__(self):
+        return self.content
 
 
 

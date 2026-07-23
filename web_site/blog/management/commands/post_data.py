@@ -77,7 +77,7 @@ img_urls = [
 
 
 class Command(BaseCommand):
-    posts.objects.all().delete()
+    
 
 
     def handle(self,*args,**kwargs):

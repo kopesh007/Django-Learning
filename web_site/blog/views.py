@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import posts
+from .models import posts,about
 from django.core.paginator import Paginator
 from .forms import contactform
 
@@ -41,5 +41,9 @@ def contact(request):
             return render(request,"contact.html",{'form':form,'name':name,'email':email,'mess':mess})
         
     return render(request,"contact.html")
+
+def about_f(request):
+    con = about.objects.get(id=1)
+    return render(request,"about.html",{'con':con})
 
 # Create your views here.
