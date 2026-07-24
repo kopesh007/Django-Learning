@@ -32,5 +32,14 @@ class about(models.Model):
         return self.content
 
 
+class user_data(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    message = models.TextField(max_length=500)
+
+    def __str__(self):
+        return self.name
+
+
 
 # Create your models here.

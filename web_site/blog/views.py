@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import posts,about
+from .models import posts,about,user_data
 from django.core.paginator import Paginator
 from .forms import contactform
 
@@ -36,14 +36,16 @@ def contact(request):
         email = request.POST["email"]
         mess = request.POST["message"]
         if form.is_valid():
-            print(form.cleaned_data["name"])
+            msg="Data Has Been Submitted , Team Will Reach You !"
+            user_data.objects.create(name=name,email=email,message=mess)
+            return render(request,"contact.html",{'form':form,'msg':msg})
         else:
             return render(request,"contact.html",{'form':form,'name':name,'email':email,'mess':mess})
         
     return render(request,"contact.html")
 
 def about_f(request):
-    con = about.objects.get(id=1)
+    con = about.objects.get(id=3)
     return render(request,"about.html",{'con':con})
 
 # Create your views here.

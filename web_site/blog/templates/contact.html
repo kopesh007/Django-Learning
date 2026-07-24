@@ -21,7 +21,14 @@
                 </div>
                 {% endfor%}
 
+                {% if msg%}
+                <div class="col-12">
 
+                    
+                    <span class="fw-bold">{{msg}}</span>
+                    
+                </div>
+                {% endif %}
 
 
                 <form method="post" class="row g-3">
