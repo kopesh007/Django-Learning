@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import posts,about,user_data
 from django.core.paginator import Paginator
-from .forms import contactform
+from .forms import contactform,regi
 
 
 
@@ -45,7 +45,18 @@ def contact(request):
     return render(request,"contact.html")
 
 def about_f(request):
-    con = about.objects.get(id=3)
+    
+    con = about.objects.first()
+    if (con is None or not con.content):
+        con="Empty"
     return render(request,"about.html",{'con':con})
+
+def register(request):
+    if(request.method == "POST"):
+        form = regi(request.POST)
+        if(form.is_valid()):
+            form.save()
+            print(form.cleaned_data["username"])
+    return render(request,"register.html")
 
 # Create your views here.
