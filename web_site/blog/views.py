@@ -52,11 +52,20 @@ def about_f(request):
     return render(request,"about.html",{'con':con})
 
 def register(request):
+    form = regi()
     if(request.method == "POST"):
         form = regi(request.POST)
+        name = request.POST["username"]
+        email = request.POST["email"]
+        password = request.POST["password"]
+        c_password = request.POST["c_password"]
         if(form.is_valid()):
-            form.save()
+            user=form.save(commit=False)
+            user.set_password(form.cleaned_data["password"])
+            user.save()
             print(form.cleaned_data["username"])
-    return render(request,"register.html")
+        else:
+            return render(request,"register.html",{'name':name,'email':email,'passw':password,'c_pass':c_password,'form':form})
+    return render(request,"register.html",{'form':form})
 
 # Create your views here.

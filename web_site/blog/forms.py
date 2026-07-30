@@ -8,10 +8,10 @@ class contactform(forms.Form):
     message = forms.CharField(label='mess',max_length=500,required=True)
 
 class regi(forms.ModelForm):
-    username = forms.CharField(label='name')
-    email = forms.EmailField(label='email')
-    password = forms.CharField(label='pass')
-    c_password = forms.CharField(label ='c_pass')
+    username = forms.CharField(label='Name',required=True)
+    email = forms.EmailField(label='Email',required=True)
+    password = forms.CharField(label='Password',required=True)
+    c_password = forms.CharField(label ='Conform Password',required=True)
 
     class Meta:
         model = User
