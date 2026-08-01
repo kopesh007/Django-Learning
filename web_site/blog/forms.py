@@ -16,3 +16,11 @@ class regi(forms.ModelForm):
     class Meta:
         model = User
         fields = ["username","email","password"]
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        pas = cleaned_data["password"]
+        c_pas = cleaned_data["c_password"]
+        if(pas and c_pas and pas != c_pas):
+            raise forms.ValidationError("Password Mismatch !!!") # this is known as non field Errors
+        
