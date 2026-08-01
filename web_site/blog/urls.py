@@ -8,5 +8,6 @@ urlpatterns=[
     path("detail/<str:sl>/",views.detail,name="detail"),
     path("contact/",views.contact,name="contact"),
     path("about/",views.about_f,name="about"),
-    path("register/",views.register,name="register")
+    path("register/",views.register,name="register"),
+    path("login/",views.login,name="login")
 ]

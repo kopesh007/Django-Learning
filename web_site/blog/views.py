@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import posts,about,user_data
 from django.core.paginator import Paginator
-from .forms import contactform,regi
+from .forms import contactform,regi,log
 from django.contrib import messages
+from django.contrib.auth import authenticate
 
 
 
@@ -68,5 +69,21 @@ def register(request):
         else:
             return render(request,"register.html",{'name':name,'email':email,'passw':password,'c_pass':c_password,'form':form})
     return render(request,"register.html",{'form':form})
+
+def login(request):
+    form = log()
+    if(request.method == "POST"):
+        form = log(request.POST)
+        name=request.POST["name"]
+        password = request.POST["password"]
+        if(form.is_valid()):
+            user = authenticate(username=name,password=password)
+            if user is not None:
+                print("SUCCESS LOGIN BROOOOOOOOOOOOOOOOOOOO")
+        else:
+            return render(request,"login.html",{'form':form,'name':name,'password':password})
+        
+            
+    return render(request,"login.html",{'form':form})
 
 # Create your views here.
