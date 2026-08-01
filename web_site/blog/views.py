@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import posts,about,user_data
 from django.core.paginator import Paginator
 from .forms import contactform,regi
+from django.contrib import messages
 
 
 
@@ -63,7 +64,7 @@ def register(request):
             user=form.save(commit=False)
             user.set_password(form.cleaned_data["password"])
             user.save()
-            print(form.cleaned_data["username"])
+            messages.success(request,"Registered ! , Now you can login")
         else:
             return render(request,"register.html",{'name':name,'email':email,'passw':password,'c_pass':c_password,'form':form})
     return render(request,"register.html",{'form':form})
