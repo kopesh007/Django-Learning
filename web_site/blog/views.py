@@ -66,6 +66,7 @@ def register(request):
             user.set_password(form.cleaned_data["password"])
             user.save()
             messages.success(request,"Registered ! , Now you can login")
+            return redirect("blog:login")
         else:
             return render(request,"register.html",{'name':name,'email':email,'passw':password,'c_pass':c_password,'form':form})
     return render(request,"register.html",{'form':form})
@@ -90,6 +91,7 @@ def login(request):
 
 
 def dash(request):
+
     return render(request,"dash.html")
 
 # Create your views here.
