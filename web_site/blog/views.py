@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import posts,about,user_data
 from django.core.paginator import Paginator
@@ -80,10 +80,16 @@ def login(request):
             user = authenticate(username=name,password=password)
             if user is not None:
                 print("SUCCESS LOGIN BROOOOOOOOOOOOOOOOOOOO")
+                return redirect("blog:dash")
         else:
             return render(request,"login.html",{'form':form,'name':name,'password':password})
         
             
     return render(request,"login.html",{'form':form})
+
+
+
+def dash(request):
+    return render(request,"dash.html")
 
 # Create your views here.

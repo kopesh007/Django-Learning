@@ -80,8 +80,7 @@ DATABASES = {
         'USER':'root',
         'PASSWORD':'kopeshdb',
         'HOST':'localhost',
-        'PORT':'3306',
-    }
+        'PORT':'3306',}
 }
 
 

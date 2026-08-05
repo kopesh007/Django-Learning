@@ -33,7 +33,7 @@ class log(forms.Form):
         cleaned_data = super().clean()
         name = cleaned_data.get("name")
         password = cleaned_data.get("password")
-
+        
         if(name and password):
             user = authenticate(username=name,password=password)
             if(user is None):
