@@ -4,7 +4,7 @@ from .models import posts,about,user_data
 from django.core.paginator import Paginator
 from .forms import contactform,regi,log
 from django.contrib import messages
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate,logout as lout ,login as lin
 
 
 
@@ -80,6 +80,7 @@ def login(request):
         if(form.is_valid()):
             user = authenticate(username=name,password=password)
             if user is not None:
+                lin(request,user)
                 print("SUCCESS LOGIN BROOOOOOOOOOOOOOOOOOOO")
                 return redirect("blog:dash")
         else:
@@ -93,5 +94,9 @@ def login(request):
 def dash(request):
 
     return render(request,"dash.html")
+
+def logout(request):
+    lout(request)
+    return redirect("blog:index")
 
 # Create your views here.
