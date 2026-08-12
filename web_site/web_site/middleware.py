@@ -11,6 +11,10 @@ class auth_redirect:
             lis_path = [reverse("blog:login"),reverse("blog:register")]
             if request.path in lis_path:
                 return redirect(reverse("blog:index"))
+        else:
+            lis_path = [reverse("blog:dash")]
+            if request.path in lis_path:
+                return redirect(reverse("blog:index"))
         res = self.get_response(request)
         return res
 
