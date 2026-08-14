@@ -49,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'web_site.middleware.auth_redirect',
+    'web_site.middleware.auth_redirect_un',
 ]
 
 ROOT_URLCONF = 'web_site.urls'
@@ -122,3 +123,11 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS=[BASE_DIR/"blog"/"static"]
+
+
+EMAIL_BACKENDS = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_PORT = 587
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "vvpr7575@gmail.com"
+EMAIL_HOST_PASSWORD = "hdmt ozry gnfw wpvk"

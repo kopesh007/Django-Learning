@@ -2,9 +2,16 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import posts,about,user_data
 from django.core.paginator import Paginator
-from .forms import contactform,regi,log
+from .forms import contactform,regi,log,password_form
 from django.contrib import messages
 from django.contrib.auth import authenticate,logout as lout ,login as lin
+from django.core.mail import send_mail
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.contrib.auth.models import User
 
 
 
@@ -98,5 +105,33 @@ def dash(request):
 def logout(request):
     lout(request)
     return redirect("blog:index")
+
+def f_pass(request):
+    form = password_form()
+    if(request.method == "POST"):
+        form = password_form(request.POST)
+        email = request.POST["email"]
+        if form.is_valid():
+            user = User.objects.get(email=email)
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            c_site = get_current_site(request)
+            Domain = c_site.domain
+            subject = "From Django Corperate"
+            message = render_to_string("reset_pass_email.html",{'domain':Domain,'uid':uid ,'token':token})
+            send_mail(subject,
+            message,
+            'vvpr7575@gmail.com',
+            [email])
+            messages.success(request,"Email Has Been Sent ! ")
+
+
+            
+
+
+    return render(request,"f_pass.html",{'form':form})
+
+def reset_pass_email(request,uidb64,token):
+    return render(request,"reset.html")
 
 # Create your views here.

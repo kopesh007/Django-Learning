@@ -39,4 +39,14 @@ class log(forms.Form):
             if(user is None):
                 raise forms.ValidationError("Invalid Username and Password !")
 
+class password_form(forms.Form):
+    
+    email = forms.EmailField(label="Email")
+
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get("email")
+        if not User.objects.filter(email=email).exists():
+            raise forms.ValidationError("User Not Registered yett !")
+
         
