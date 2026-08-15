@@ -2,12 +2,12 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from .models import posts,about,user_data
 from django.core.paginator import Paginator
-from .forms import contactform,regi,log,password_form
+from .forms import contactform,regi,log,password_form,change_pass
 from django.contrib import messages
 from django.contrib.auth import authenticate,logout as lout ,login as lin
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
-from django.utils.http import urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
@@ -119,6 +119,7 @@ def f_pass(request):
             Domain = c_site.domain
             subject = "From Django Corperate"
             message = render_to_string("reset_pass_email.html",{'domain':Domain,'uid':uid ,'token':token})
+            print(message)
             send_mail(subject,
             message,
             'vvpr7575@gmail.com',
@@ -132,6 +133,25 @@ def f_pass(request):
     return render(request,"f_pass.html",{'form':form})
 
 def reset_pass_email(request,uidb64,token):
-    return render(request,"reset.html")
+    form = change_pass()
+    if request.method == "POST":
+        form = change_pass(request.POST)
+        password = request.POST["password"]
+        c_password = request.POST["c_password"]
+        if form.is_valid():
+            try:
+                uid = urlsafe_base64_decode(uidb64)
+                user = User.objects.get(id=uid)
+            except Exception :
+                user = None
+            if user is not None and default_token_generator.check_token(user,token):
+                user.set_password(password)
+                user.save()
+                messages.success(request,"Password Has Been Changed !")
+                return redirect("blog:login")   
+            else:
+                messages.error(request,"Something went's Wromg , Please try again ! ") 
+        return render(request,"reset.html",{'form':form,'password':password,'c_password':c_password})    
+    return render(request,"reset.html",{'form':form})
 
 # Create your views here.

@@ -49,4 +49,17 @@ class password_form(forms.Form):
         if not User.objects.filter(email=email).exists():
             raise forms.ValidationError("User Not Registered yett !")
 
+class change_pass(forms.Form):
+    password = forms.CharField(label="New Password",max_length=100,required=True)
+    c_password = forms.CharField(label="Confirm Password",max_length=100,required=True)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        p = cleaned_data.get("password")
+        c_p = cleaned_data.get("c_password")
+
+        if (p and c_p and (not p == c_p)):
+            raise forms.ValidationError("Password Mismatch !!!")
+
+
         
