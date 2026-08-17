@@ -22,8 +22,11 @@ class regi(forms.ModelForm):
         cleaned_data = super().clean()
         pas = cleaned_data.get("password")
         c_pas = cleaned_data.get("c_password")
+        email = cleaned_data.get("email")
         if(pas and c_pas and pas != c_pas):
-            raise forms.ValidationError("Password Mismatch !!!") # this is known as non field Errors
+            raise forms.ValidationError("Password Mismatch !!!")
+        if(User.objects.filter(email=email).exists()):
+            raise forms.ValidationError("This Email Already Exists !") # this is known as non field Errors
 
 class log(forms.Form):
     name = forms.CharField(label="Name",max_length=100,required=True)
