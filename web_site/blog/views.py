@@ -100,7 +100,13 @@ def login(request):
 
 def dash(request):
 
-    return render(request,"dash.html")
+    all_posts = posts.objects.filter(user=request.user)
+    all_pages = Paginator(all_posts,5)
+    pg_no = request.GET.get("page")
+    pg_posts = all_pages.get_page(pg_no)
+
+
+    return render(request,"dash.html",{'posts':pg_posts})
 
 def logout(request):
     lout(request)
