@@ -13,5 +13,6 @@ urlpatterns=[
     path("dash/",views.dash,name="dash"),
     path("logout/",views.logout,name="logout"),
     path("f_pass/",views.f_pass,name="f_pass"),
-    path("reset_pass/<uidb64>/<token>",views.reset_pass_email,name="reset")
+    path("reset_pass/<uidb64>/<token>",views.reset_pass_email,name="reset"),
+    path("new_post/",views.new_post,name="new_post")
 ]

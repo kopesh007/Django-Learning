@@ -64,5 +64,10 @@ class change_pass(forms.Form):
         if (p and c_p and (not p == c_p)):
             raise forms.ValidationError("Password Mismatch !!!")
 
+class n_posts(forms.Form):
+    title = forms.CharField(max_length=100,required = True,label="Title")
+    content = forms.CharField(max_length=100,required=True,label="Content")
+    category = forms.CharField(max_length=100,required=True,label="Category")
+
 
         

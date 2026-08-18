@@ -100,10 +100,11 @@ def login(request):
 
 def dash(request):
 
-    all_posts = posts.objects.filter(user=request.user)
+    all_posts = posts.objects.filter(user=request.user).order_by("title")
     all_pages = Paginator(all_posts,5)
     pg_no = request.GET.get("page")
     pg_posts = all_pages.get_page(pg_no)
+    print(request.user)
 
 
     return render(request,"dash.html",{'posts':pg_posts})
@@ -159,5 +160,8 @@ def reset_pass_email(request,uidb64,token):
                 messages.error(request,"Something went's Wromg , Please try again ! ") 
         return render(request,"reset.html",{'form':form,'password':password,'c_password':c_password})    
     return render(request,"reset.html",{'form':form})
+
+def new_post(request):
+    return render(request,"new_post.html")
 
 # Create your views here.
