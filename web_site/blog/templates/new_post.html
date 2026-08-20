@@ -13,22 +13,27 @@
     
                 <div class="my-3">
                     <form method="post">
+                        {% csrf_token %}
                         <div class="form-group">
                             <label for="title" class="form-label">Title</label>
-                            <input type="text" class="form-control" name="title" id="title" value="">
+                            <input type="text" class="form-control" name="title" id="title" value="{{title}}">
                         </div>
                        
                         <div class="form-group">
                             <label for="content" class="form-label">Content</label>
-                            <textarea class="form-control" id="content" name="content"></textarea>
+                            <textarea class="form-control" id="content" name="content">{{con}}</textarea>
                         </div>
     
                         <div class="form-group">
                             <label for="category" class="form-label">Category</label>
                             <select class="form-control" id="category" name="category">
                                 <option value="">Select</option>
-                                <option value="1">Category 1</option>
-                                <option value="2">Category 2</option>
+                                {% if categories %}
+                                    {% for i in categories%}
+                                        <option value="{{i.id}}">{{i.name}}</option>
+                                    {% endfor %}
+                                {% endif %}
+                            
                             </select>
                         </div>
                        

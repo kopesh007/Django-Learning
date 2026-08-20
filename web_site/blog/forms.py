@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
+from .models import posts,cat
 
 
 class contactform(forms.Form):
@@ -64,10 +65,27 @@ class change_pass(forms.Form):
         if (p and c_p and (not p == c_p)):
             raise forms.ValidationError("Password Mismatch !!!")
 
-class n_posts(forms.Form):
+class n_posts(forms.ModelForm):
     title = forms.CharField(max_length=100,required = True,label="Title")
     content = forms.CharField(max_length=100,required=True,label="Content")
-    category = forms.CharField(max_length=100,required=True,label="Category")
+    category = forms.ModelChoiceField(label="Category",queryset=cat.objects.all())
+
+    class Meta:
+        model = posts
+        fields = ['title','content','category']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        title = cleaned_data.get("title")
+        content = cleaned_data.get("content")
+
+        if (title and len(title)<5):
+            raise forms.ValidationError("Title Must Be Larger Than 5 Characters !")
+        
+        if (content and len(content)<10):
+            raise forms.ValidationError("Content Must Be Larger Than 10 Characters !")
+
+
 
 
         

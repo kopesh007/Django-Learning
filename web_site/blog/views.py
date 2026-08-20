@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .models import posts,about,user_data
+from .models import posts,about,user_data,cat
 from django.core.paginator import Paginator
-from .forms import contactform,regi,log,password_form,change_pass
+from .forms import contactform,regi,log,password_form,change_pass,n_posts
 from django.contrib import messages
 from django.contrib.auth import authenticate,logout as lout ,login as lin
 from django.core.mail import send_mail
@@ -162,6 +162,19 @@ def reset_pass_email(request,uidb64,token):
     return render(request,"reset.html",{'form':form})
 
 def new_post(request):
-    return render(request,"new_post.html")
+    form = n_posts()
+    categories = cat.objects.all()
+    if request.method == "POST":
+        form = n_posts(request.POST)
+        title = request.POST["title"]
+        con = request.POST["content"]
+        cate = request.POST["category"]
+        if form.is_valid():
+            post = form.save()
+            post.user = request.user
+            post.save()
+            return redirect("blog:dash")
+        return render(request,"new_post.html",{'form':form,'categories':categories,'title':title,'con':con,'cate':cate})
+    return render(request,"new_post.html",{'form':form,'categories':categories})
 
 # Create your views here.
