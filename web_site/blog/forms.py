@@ -69,10 +69,11 @@ class n_posts(forms.ModelForm):
     title = forms.CharField(max_length=100,required = True,label="Title")
     content = forms.CharField(max_length=100,required=True,label="Content")
     cato = forms.ModelChoiceField(label="Category",queryset=cat.objects.all())
+    image = forms.ImageField(label="image",required=False)
 
     class Meta:
         model = posts
-        fields = ['title','content','cato']
+        fields = ['title','content','cato','image']
 
 
 
@@ -80,9 +81,6 @@ class n_posts(forms.ModelForm):
         cleaned_data = super().clean()
         title = cleaned_data.get("title")
         content = cleaned_data.get("content")
-
-        
-        
         if (content and len(content)<10):
             raise forms.ValidationError("Content Must Be Larger Than 10 Characters !")
 
@@ -93,7 +91,20 @@ class n_posts(forms.ModelForm):
         if title and len(title)<5:
             raise forms.ValidationError("Title at least have more than 5 characters !")
         return title
+    
+    def save(self,commit=...):
+        post = super().save(commit)
 
+        cleaned_data = super().clean()
+        if cleaned_data.get("image"):
+            post.image = cleaned_data.get("image")
+        else:
+            img = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/330px-No_image_available.svg.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=thumbnail"
+            post.image = img
+
+        if commit :
+            post.save()
+        return post
 
 
 

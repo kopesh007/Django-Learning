@@ -13,7 +13,7 @@ class cat(models.Model):
 class posts(models.Model):
     title=models.CharField(max_length=100)
     content=models.TextField(max_length=500)
-    image=models.ImageField(blank=True,null=True)
+    image=models.ImageField(null=True,upload_to="posts/images",max_length=300)
     data=models.DateTimeField(auto_now_add=True)
     slug=models.SlugField(unique=True)
     cato=models.ForeignKey(cat,on_delete=models.CASCADE,default=1)
@@ -22,6 +22,10 @@ class posts(models.Model):
     def save(self,*args,**kwargs):
         self.slug=slugify(self.title)
         super().save(*args,**kwargs)
+
+    def select_image_url(self):
+        url = self.image if self.image.__str__().startswith(('http://','https://')) else self.image.url
+        return url
  # UPDATE `last_recall`.`blog_posts` SET `user_id` = '18' WHERE (`id` = '2');
     def __str__(self):
         return self.title

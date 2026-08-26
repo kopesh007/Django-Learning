@@ -131,3 +131,7 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "vvpr7575@gmail.com"
 EMAIL_HOST_PASSWORD = "hdmt ozry gnfw wpvk"
+import os
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')

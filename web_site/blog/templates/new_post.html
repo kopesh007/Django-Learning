@@ -12,7 +12,7 @@
                  {% include 'include/error.html'%}
     
                 <div class="my-3">
-                    <form method="post">
+                    <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="form-group">
                             <label for="title" class="form-label">Title</label>
@@ -22,6 +22,11 @@
                         <div class="form-group">
                             <label for="content" class="form-label">Content</label>
                             <textarea class="form-control" id="content" name="content">{{content}}</textarea>
+                        </div>
+
+                         <div class="form-group">
+                            <label for="image" class="form-label">Image</label>
+                            <input type="file" class="form-control-file" name="image" id="image"> 
                         </div>
     
                         <div class="form-group">

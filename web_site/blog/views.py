@@ -101,7 +101,7 @@ def login(request):
 def dash(request):
 
     all_posts = posts.objects.filter(user=request.user).order_by("title")
-    all_pages = Paginator(all_posts,5)
+    all_pages = Paginator(all_posts,6)
     pg_no = request.GET.get("page")
     pg_posts = all_pages.get_page(pg_no)
     print(request.user)
@@ -165,12 +165,12 @@ def new_post(request):
     form = n_posts()
     categories = cat.objects.all()
     if request.method == "POST":
-        form = n_posts(request.POST)
+        form = n_posts(request.POST,request.FILES)
         title = request.POST["title"]
         content = request.POST["content"]
         category = request.POST["cato"]
         if form.is_valid():
-            post = form.save()
+            post = form.save(commit=False)
             post.user = request.user
             post.save()
             return redirect("blog:dash")
