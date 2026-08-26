@@ -167,14 +167,14 @@ def new_post(request):
     if request.method == "POST":
         form = n_posts(request.POST)
         title = request.POST["title"]
-        con = request.POST["content"]
-        cate = request.POST["category"]
+        content = request.POST["content"]
+        category = request.POST["cato"]
         if form.is_valid():
             post = form.save()
             post.user = request.user
             post.save()
             return redirect("blog:dash")
-        return render(request,"new_post.html",{'form':form,'categories':categories,'title':title,'con':con,'cate':cate})
-    return render(request,"new_post.html",{'form':form,'categories':categories})
-
+        else:
+            return render(request,"new_post.html",{'form':form,'title':title,'content':content,'category':category,'categories':categories})
+    return render(request,"new_post.html",{'form':form,"categories":categories})
 # Create your views here.

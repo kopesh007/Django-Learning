@@ -9,6 +9,7 @@ class auth_redirect:
     def __call__(self,request):
         if request.user.is_authenticated:
             lis_path = [reverse("blog:login"),reverse("blog:register")]
+            print(request.path)
             if request.path in lis_path:
                 return redirect(reverse("blog:index"))
         res = self.get_response(request)

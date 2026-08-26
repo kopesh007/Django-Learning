@@ -7,7 +7,7 @@ from .models import posts,cat
 class contactform(forms.Form):
     name = forms.CharField(label='name',max_length=100,required=True)
     email = forms.EmailField(label='email',required=True)
-    message = forms.CharField(label='mess',max_length=500,required=True)
+    message = forms.CharField(label='mess',max_length=500   ,required=True)
 
 class regi(forms.ModelForm):
     username = forms.CharField(label='Name',required=True)
@@ -16,7 +16,7 @@ class regi(forms.ModelForm):
     c_password = forms.CharField(label ='Conform Password',required=True)
 
     class Meta:
-        model = User
+        model = User # Django knows that the form fields correspond to fields in the User model.
         fields = ["username","email","password"]
     
     def clean(self):
@@ -68,22 +68,31 @@ class change_pass(forms.Form):
 class n_posts(forms.ModelForm):
     title = forms.CharField(max_length=100,required = True,label="Title")
     content = forms.CharField(max_length=100,required=True,label="Content")
-    category = forms.ModelChoiceField(label="Category",queryset=cat.objects.all())
+    cato = forms.ModelChoiceField(label="Category",queryset=cat.objects.all())
 
     class Meta:
         model = posts
-        fields = ['title','content','category']
+        fields = ['title','content','cato']
+
+
 
     def clean(self):
         cleaned_data = super().clean()
         title = cleaned_data.get("title")
         content = cleaned_data.get("content")
 
-        if (title and len(title)<5):
-            raise forms.ValidationError("Title Must Be Larger Than 5 Characters !")
+        
         
         if (content and len(content)<10):
             raise forms.ValidationError("Content Must Be Larger Than 10 Characters !")
+
+        return cleaned_data
+
+    def clean_title(self):
+        title = self.cleaned_data["title"]
+        if title and len(title)<5:
+            raise forms.ValidationError("Title at least have more than 5 characters !")
+        return title
 
 
 
