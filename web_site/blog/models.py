@@ -23,7 +23,7 @@ class posts(models.Model):
         self.slug=slugify(self.title)
         super().save(*args,**kwargs)
 
-    def select_image_url(self):
+    def select_image_url(self): # this method to choose from two types of urls ....
         url = self.image if self.image.__str__().startswith(('http://','https://')) else self.image.url
         return url
  # UPDATE `last_recall`.`blog_posts` SET `user_id` = '18' WHERE (`id` = '2');
