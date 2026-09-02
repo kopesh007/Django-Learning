@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse
 from .models import posts,about,user_data,cat
 from django.core.paginator import Paginator
@@ -12,7 +12,6 @@ from django.utils.encoding import force_bytes
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
-
 
 
 
@@ -177,4 +176,16 @@ def new_post(request):
         else:
             return render(request,"new_post.html",{'form':form,'title':title,'content':content,'category':category,'categories':categories})
     return render(request,"new_post.html",{'form':form,"categories":categories})
+
+def edit_post(request,post_id):
+    category = cat.objects.all()
+    post = get_object_or_404(posts,id=post_id)
+    form = n_posts()
+    if request.method == "POST":
+        form = n_posts(request.POST,request.FILES,instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect("blog:dash")
+
+    return render(request,"edit.html",{"categories":category,'form':form,'post':post})
 # Create your views here.

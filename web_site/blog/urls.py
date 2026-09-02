@@ -14,5 +14,6 @@ urlpatterns=[
     path("logout/",views.logout,name="logout"),
     path("f_pass/",views.f_pass,name="f_pass"),
     path("reset_pass/<uidb64>/<token>",views.reset_pass_email,name="reset"),
-    path("new_post/",views.new_post,name="new_post")
+    path("new_post/",views.new_post,name="new_post"),
+    path("edit_post/<int:post_id>/",views.edit_post,name="edit_post")
 ]
