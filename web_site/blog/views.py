@@ -188,4 +188,11 @@ def edit_post(request,post_id):
             return redirect("blog:dash")
 
     return render(request,"edit.html",{"categories":category,'form':form,'post':post})
+
+def delete_post(request,post_id):
+    post = get_object_or_404(posts,id=post_id)
+    post.delete()
+    messages.success(request,"Post has Been Deleted Successfully !")
+    return redirect("blog:dash")
+    
 # Create your views here.
