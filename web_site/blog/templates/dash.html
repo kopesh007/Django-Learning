@@ -47,6 +47,10 @@
                                   <div class="d-flex justify-content-between mt-2">
                                      <a class="btn btn-warning btn-sm"href="{% url "blog:edit_post" post_id=post.id  %}">Edit</a>
                                      <button class="btn btn-danger btn-sm" onclick="check_url(`{% url "blog:delete" post_id=post.id  %}`)">Delete</button>
+                                     {% if not post.is_pub %}
+                                        <button class="btn btn-success btn-sm" onclick="check_url_publish(`{% url "blog:pub" post_id=post.id  %}`)">Publish</button>
+                                    {% endif %}
+
 
                                 </div>
                             </div>
@@ -103,6 +107,15 @@
                     
                 }
             } 
+
+            function check_url_publish(url)
+            {
+                var user=confirm("Are you sure ! , Want to Publish ?")
+                if (user)
+                {
+                    window.location.href=url
+                }
+            }
       </script>
 
 {% endblock %}

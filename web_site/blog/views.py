@@ -17,7 +17,7 @@ from django.contrib.auth.models import User
 
 
 def index(request):
-    all_posts = posts.objects.all().order_by("title")
+    all_posts = posts.objects.filter(is_pub=True).order_by("title")
     all_pages = Paginator(all_posts,5)
     pg = request.GET.get('page')
     pg_posts = all_pages.get_page(pg)
@@ -190,9 +190,17 @@ def edit_post(request,post_id):
     return render(request,"edit.html",{"categories":category,'form':form,'post':post})
 
 def delete_post(request,post_id):
+
     post = get_object_or_404(posts,id=post_id)
     post.delete()
     messages.success(request,"Post has Been Deleted Successfully !")
     return redirect("blog:dash")
+
+def pub(request,post_id):
+    post = get_object_or_404(posts,id=post_id)
+    post.is_pub=True
+    post.save()
+    messages.success(request,"Post Has Been Published !")
+    return redirect("blog:index")
     
 # Create your views here.

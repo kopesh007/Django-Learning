@@ -18,6 +18,7 @@ class posts(models.Model):
     slug=models.SlugField(unique=True)
     cato=models.ForeignKey(cat,on_delete=models.CASCADE,default=1)
     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    is_pub = models.BooleanField(default=False)
 
     def save(self,*args,**kwargs):
         self.slug=slugify(self.title)
