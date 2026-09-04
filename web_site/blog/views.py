@@ -12,6 +12,7 @@ from django.utils.encoding import force_bytes
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -159,7 +160,7 @@ def reset_pass_email(request,uidb64,token):
                 messages.error(request,"Something went's Wromg , Please try again ! ") 
         return render(request,"reset.html",{'form':form,'password':password,'c_password':c_password})    
     return render(request,"reset.html",{'form':form})
-
+@login_required
 def new_post(request):
     form = n_posts()
     categories = cat.objects.all()
@@ -176,7 +177,7 @@ def new_post(request):
         else:
             return render(request,"new_post.html",{'form':form,'title':title,'content':content,'category':category,'categories':categories})
     return render(request,"new_post.html",{'form':form,"categories":categories})
-
+@login_required
 def edit_post(request,post_id):
     category = cat.objects.all()
     post = get_object_or_404(posts,id=post_id)
@@ -188,14 +189,14 @@ def edit_post(request,post_id):
             return redirect("blog:dash")
 
     return render(request,"edit.html",{"categories":category,'form':form,'post':post})
-
+@login_required
 def delete_post(request,post_id):
 
     post = get_object_or_404(posts,id=post_id)
     post.delete()
     messages.success(request,"Post has Been Deleted Successfully !")
     return redirect("blog:dash")
-
+@login_required
 def pub(request,post_id):
     post = get_object_or_404(posts,id=post_id)
     post.is_pub=True
