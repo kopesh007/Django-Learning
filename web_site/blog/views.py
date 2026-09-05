@@ -196,6 +196,8 @@ def delete_post(request,post_id):
     post.delete()
     messages.success(request,"Post has Been Deleted Successfully !")
     return redirect("blog:dash")
+
+    
 @login_required
 def pub(request,post_id):
     post = get_object_or_404(posts,id=post_id)
