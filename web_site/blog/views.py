@@ -13,6 +13,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 
 
 
@@ -27,6 +28,9 @@ def index(request):
     return render(request,"index.html",{'posts':pg_posts})
 
 def detail(request,sl):
+    if request.user and not request.user.has_perm("blog.view_post"):
+        messages.error(request,"You Don't Have Permissions")
+        return redirect("blog:index")
     try:
         post=posts.objects.get(slug=sl)
         rel=posts.objects.filter(cato=post.cato).exclude(slug=sl)
@@ -72,6 +76,9 @@ def register(request):
             user=form.save(commit=False)
             user.set_password(form.cleaned_data["password"])
             user.save()
+            # inserting user into group
+            data,mode = Group.objects.get_or_create(name="READERS")
+            user.groups.add(data)
             messages.success(request,"Registered ! , Now you can login")
             return redirect("blog:login")
         else:
@@ -197,7 +204,7 @@ def delete_post(request,post_id):
     messages.success(request,"Post has Been Deleted Successfully !")
     return redirect("blog:dash")
 
-    
+
 @login_required
 def pub(request,post_id):
     post = get_object_or_404(posts,id=post_id)
